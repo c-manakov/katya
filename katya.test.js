@@ -59,7 +59,7 @@ test('generates pairs array from object', () => {
 
     expect(pairsFromObject).toEqual(pairs)
 
-    expect(pairs).toEqual(pairsFromObject)
+    expect(objFromPairsCopy).toEqual(objFromPairs)
 })
 
 test('generates an object from array with a keyby function', () => {
