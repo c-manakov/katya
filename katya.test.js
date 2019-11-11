@@ -43,7 +43,7 @@ let objFromPairs = {
     key6: 'value6'
 }
 
-const objFromPairsCopy = deepCopy(objFromPairsCopy)
+const objFromPairsCopy = deepCopy(objFromPairs)
 
 test('generates an object from an array of pairs', () => {
     const obj = katya.fromPairs(pairs)
