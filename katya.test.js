@@ -17,7 +17,7 @@ test('generates new array with a field and does not change the old one', () => {
 
     let newArr = katya.newArrayWithField(users)
 
-    expect(newArr).toEqual(expect.arrayContaining([expect.objectContaining({userType: 'customer'})])) 
+    expect(newArr).toEqual(expect.arrayContaining([expect.objectContaining({ userType: 'customer' })]))
 
     expect(users).toEqual(usersCopy)
 })
@@ -64,20 +64,20 @@ test('generates pairs array from object', () => {
 
 test('generates an object from array with a keyby function', () => {
     const arr = [
-        {name: 'vasiliy', age: 25},
-        {name: 'gregoriy', age: 28},
-        {name: 'alexander', age: 322},
-        {name: 'katerina', age: 21},
-        {name: 'taxi driver', age: 20},
-        {name: 'taxi driver2', age: 20},
+        { name: 'vasiliy', age: 25 },
+        { name: 'gregoriy', age: 28 },
+        { name: 'alexander', age: 322 },
+        { name: 'katerina', age: 21 },
+        { name: 'taxi driver', age: 20 },
+        { name: 'taxi driver2', age: 20 },
     ]
 
     const arrByAge = {
-        25: {name: 'vasiliy', age: 25},
-        21: {name: 'gregoriy', age: 28},
-        322: {name: 'alexander', age: 322},
-        21: {name: 'katerina', age: 21},
-        20: {name: 'taxi driver', age: 20},
+        25: { name: 'vasiliy', age: 25 },
+        28: { name: 'gregoriy', age: 28 },
+        322: { name: 'alexander', age: 322 },
+        21: { name: 'katerina', age: 21 },
+        20: { name: 'taxi driver', age: 20 },
     }
 
     const newArrByAge = katya.keyBy(arr, it => it.age)
@@ -85,12 +85,50 @@ test('generates an object from array with a keyby function', () => {
     expect(newArrByAge).toEqual(arrByAge)
 
     const arrByNameForPeopleOlderThan21 = {
-        vasiliy: {name: 'vasiliy', age: 25},
-        gregoriy: {name: 'gregoriy', age: 28},
-        alexander: {name: 'alexander', age: 322},
+        vasiliy: { name: 'vasiliy', age: 25 },
+        gregoriy: { name: 'gregoriy', age: 28 },
+        alexander: { name: 'alexander', age: 322 },
     }
 
     const newArrByNameForPeopleOlderThan21 = katya.keyBy(arr, it => it.age > 21 ? it.name : undefined)
 
     expect(arrByNameForPeopleOlderThan21).toEqual(newArrByNameForPeopleOlderThan21)
+})
+
+test('generates an object from array with a groupby function', () => {
+    const arr = [
+        { name: 'vasiliy', age: 25 },
+        { name: 'gregoriy', age: 28 },
+        { name: 'alexander', age: 322 },
+        { name: 'katerina', age: 21 },
+        { name: 'elizabeth', age: 21 },
+        { name: 'taxi driver', age: 20 },
+        { name: 'taxi driver2', age: 20 },
+    ]
+
+
+    const arrByAge = {
+        25: [{ name: 'vasiliy', age: 25 }],
+        28: [{ name: 'gregoriy', age: 28 }],
+        322: [{ name: 'alexander', age: 322 }],
+        21: [{ name: 'katerina', age: 21 }, { name: 'elizabeth', age: 21 }],
+        20: [{ name: 'taxi driver', age: 20 }, { name: 'taxi driver2', age: 20 }],
+    }
+
+    const newArrByAge = katya.groupBy(arr, it => it.age)
+
+    expect(newArrByAge).toEqual(arrByAge)
+
+    const arrByNameLength = {
+        7: [ { name: 'vasiliy', age: 25 } ],
+        8: [{ name: 'gregoriy', age: 28 }, { name: 'katerina', age: 21 }],
+        9: [{ name: 'alexander', age: 322 }, { name: 'elizabeth', age: 21 }],
+        11: [{ name: 'taxi driver', age: 20 }],
+        12: [{ name: 'taxi driver2', age: 20 }]
+    }
+
+    const newArrByNameLength = katya.groupBy(arr, it => it.name.length)
+
+    expect(newArrByNameLength).toEqual(arrByNameLength)
+
 })
